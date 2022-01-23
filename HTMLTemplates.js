@@ -1,0 +1,5 @@
+const HTMLTemplates = {
+    cssWinOverlay: "<div class='background' onClick='(e) => {e.preventDefault(); e.stopPropagation();}'></div><div class='main'><div class='cont'><div class='content'><h1>Brawo!</h1><h4>Układanka [%1] ukończona z czasem [%2].</h4><h5>Wprowadź swój nick, być może znajdziesz się w TOP10!</h5><label><input type='text' name='nick' id='nick' placeholder='Wprowadź nick' autocomplete='off' maxlength='20' autofocus></label><button type='button' onClick='if(document.getElementById(`nick`).value.length > 0) {puzzleObject.SaveTime(document.getElementById(`nick`).value.replace(/[^\\x00-\\x7F]/g, `:`));}'>Zapisz</button></div></div></div>",
+    cssRecordOverlay: "<div class='background' onClick='(e) => {e.preventDefault(); e.stopPropagation();}'></div><div class='main'><div class='cont'><div class='close' onclick='puzzleObject.cssRecordOverlay.Hide()'>❌</div><div class='content'><h1>Najlepsze czasy ([%1]):</h1><table>[%2]</table></div></div></div>",
+    cssRecordOverlayRow: "<tr><td style='width:60px'>[%1].</td><td style='width:320px'>[%2]</td><td style='width:120px'>[%3]</td></tr>"
+};

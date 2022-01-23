@@ -1,0 +1,328 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+$color-green: rgb(75, 206, 0);
+$color-red: rgb(206, 0, 0);
+$color-blue: rgb(0, 183, 255);
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(45, 45, 45);
+    overflow: hidden;
+
+    #container {
+        width: 100%;
+        height: 100%;
+        padding-top: 20px;
+        position: relative;
+
+        #game-settings-container {
+            height: 200px;
+            margin-bottom: 40px;
+            padding-left: calc(50% - 392px);
+
+            & > * {
+                float: left;
+            }
+
+            .clearfix::after {
+                content: "";
+                clear: both;
+                display: table;
+            }
+
+            #minature-image-container {
+                border: 2px solid $color-blue;
+                border-radius: 16px;
+                display: block;
+                position: relative;
+                overflow: hidden;
+
+                #minature-image-slider {
+                    position: absolute;
+                }
+            }
+        
+            #size-image-select {
+                display: block;
+                text-align: center;
+                margin-top: calc((200px - 146px) / 2);
+                margin-right: 40px;
+
+                #size-button-container {
+                    .size-button {
+                        margin: 0 10px;
+                        height: 24px;
+                        width: 50px;
+                        cursor: pointer;
+                        border: 2px solid $color-red;
+                        border-radius: 4px;
+                        background-color: transparent;
+                        color: whitesmoke;
+
+                        &:last-child {
+                            margin: 0 0 0 10px;
+                        }
+
+                        &:first-child {
+                            margin: 0 10px 0 0;
+                        }
+
+                        &.selected {
+                            border-color: $color-green;
+                        }
+
+                        &:active, &:focus {
+                            outline: none;
+                        }
+                    }
+                }
+
+                #image-control {
+                    margin: 20px auto 0;
+                    height: 40px;
+                    width: max-content;
+
+                    & > * {
+                        color: whitesmoke;
+                        font-size: 56px;
+                        float: left;
+                        height: 40px;
+                        overflow: hidden;
+                        line-height: 34px;
+                        cursor: pointer;
+                    }
+
+                    .arrow-right {
+                        margin-left: 10px;
+                    }
+
+                    #show-numbers {
+                        color: whitesmoke;
+                        width: max-content;
+                        padding: 4px 8px;
+                        font-size: 16px;
+                        line-height: 22px;
+                        height: 32px;
+                        border: 2px solid $color-green;
+                        border-radius: 6px;
+                        cursor: pointer;
+                        background-color: transparent;
+                        margin: 4px 0 0 20px;
+
+                        &.on {
+                            border: 2px solid $color-green;
+                        }
+
+                        &.off {
+                            border: 2px solid $color-red;
+                        }
+
+                        &::selection {
+                            background-color: none;
+                        }
+                    }
+                }
+
+                #start-game {
+                    color: whitesmoke;
+                    width: 260px;
+                    padding: 4px 8px;
+                    font-size: 16px;
+                    line-height: 22px;
+                    height: 32px;
+                    border: 2px solid $color-blue;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    background-color: transparent;
+                    margin: 30px auto 0;
+                }
+            }
+
+            #game-timer-container {
+                margin-left: 40px;
+                margin-top: calc((200px - 181px) / 2);
+
+                #current-time, #best-time {
+                    margin-bottom: 16px;
+                }
+
+                .title {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: whitesmoke;
+                    margin-bottom: 2px;
+                }
+
+                .counter {
+                    img {
+                        height: 32px;
+                    }
+                }
+
+                #show-records {
+                    color: whitesmoke;
+                    width: max-content;
+                    padding: 4px 8px;
+                    border: 2px solid $color-blue;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    background-color: transparent;
+                    margin: 0 auto;
+                }
+            }
+        }
+
+        #puzzle-container {
+            outline: 5px solid $color-blue;
+            margin: 0 auto;
+            position: relative;
+
+            .tile {
+                cursor: pointer;
+                float: left;
+                border: 1px solid black;
+                opacity: 1;
+                position: absolute;
+
+                &.no-border {
+                    border: none;
+                    cursor: default;
+                }
+
+                &.blank {
+                    opacity: 0;
+                    z-index: -100;
+                }
+            }
+
+            &.show-numbers {
+                .tile:not(.no-border) {
+                    &::after {
+                        position: absolute;
+                        top: 5px;
+                        left: 5px;
+                        font-size: 20px;
+                        content: attr(data-number);
+                        background-color: black;
+                        padding: 5px 7px;
+                        color: white;
+                    }
+
+                    &.priority-one::after {
+                        color: $color-red;
+                    }
+
+                    &.priority-two::after {
+                        color: rgb(206, 110, 0);
+                    }
+                }
+            }
+        }
+
+        #css-win-overlay, #css-record-overlay {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            left: 0;
+            top: 0;
+
+            .background {
+                position: absolute;
+                z-index: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+
+            .main {
+                position: absolute;
+                z-index: 1;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .cont {
+                    width: 600px;
+                    height: min-content;
+                    display: block;
+                    text-align: center;
+                    background-color: rgb(45, 45, 45);
+                    padding: 40px 0 40px;
+                    color: whitesmoke;
+                    border: 4px solid green;
+                    border-radius: 15px;
+                    position: relative;
+
+                    input[type=text] {
+                        width: 200px;
+                        height: 24px;
+                        background-color: transparent;
+                        border: 2px solid $color-blue;
+                        border-radius: 8px;
+                        font-size: 14px;
+                        color: white;
+                        padding: 0 0 0 12px;
+
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+
+                    button {
+                        width: 72px;
+                        height: 24px;
+                        background-color: transparent;
+                        border: 2px solid $color-green;
+                        border-radius: 8px;
+                        font-size: 14px;
+                        color: white;
+                        text-align: center;
+                        margin-left: 30px;
+
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+
+                    table {
+                        width: 500px;
+                        margin: 0 50px;
+                        font-size: 16px;
+
+                        & tr:first-child {
+                            height: 40px;
+                            font-size: 20px;
+                        }
+                    }
+
+                    .close {
+                        position: absolute;
+                        width: 32px;
+                        height: 32px;
+                        top: 16px;
+                        right: 16px;
+                        border-radius: 4px;
+                        text-align: center;
+                        line-height: 32px;
+                        font-size: 24px;
+                        overflow: hidden;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}
